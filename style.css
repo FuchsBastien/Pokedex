@@ -49,3 +49,11 @@ h1 {
     padding: 15px;
 }
 
+/* animation d'input */
+/*Lorsqu'on focus sur l'enfant label (focus-within label) ou qu'on écrit sur l'input (active-input label), il se déplacera de 15px vers le haut + padding + couleur*/
+.recherche-poke:focus-within label,
+.recherche-poke.active-input label {
+    top: -15px;
+    padding-left: 5px;
+    color: #f1f1f1;
+}
