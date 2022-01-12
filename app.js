@@ -21,7 +21,6 @@ const types = {
 };
 
 
-
 //Appel API 
 
 function fetchPokemonBase(){
@@ -173,9 +172,9 @@ function addPoke(nb) {
 // Recherche 
 
 const searchInput = document.querySelector('.recherche-poke input');
-//à chaque saisie de caractères dans l'input, on applique la fonction "recherche" (qu'on met à part)
+/*à chaque saisie de caractères dans l'input, on applique la fonction "recherche" (qu'on met à part)
+qui va afficher tous les pokemons*/
 searchInput.addEventListener('keyup', recherche);
-
 
 function recherche(){
 
@@ -186,23 +185,30 @@ function recherche(){
         addPoke(130);
     }
 
-    /*let filter, allLi, titleValue, allTitles;
+    //mettre variables sans déclarer de valeurs 
+    let filter, allLi, allTitles, titleValue;
+    //mettre les valeurs
+    //valeurs de searchInput en majuscules
     filter = searchInput.value.toUpperCase();
+     //selection des li
     allLi = document.querySelectorAll('li');
+    //selection des h5 dans les li
     allTitles = document.querySelectorAll('li > h5');
     
-    
+    //on affiche tous les li
     for(i = 0; i < allLi.length; i++) {
 
+        //nom des pokemons dans les li (texte de h5)
         titleValue = allTitles[i].innerText;
 
+        //si le nom des pokemons des cartes correspond à l'index de ce qu'on recherche (>-1 = 0,1,2...)
         if(titleValue.toUpperCase().indexOf(filter) > -1) {
             allLi[i].style.display = "flex";
         } else {
             allLi[i].style.display = "none";
         }
 
-    }*/
+    }
 
 }
 
