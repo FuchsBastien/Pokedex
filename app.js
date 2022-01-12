@@ -171,10 +171,17 @@ function addPoke(nb) {
 
 // Recherche 
 
+const formRecherche = document.querySelector('form');
+formRecherche.addEventListener('submit', (e) => {
+         e.preventDefault();
+         recherche();
+ })
+    
+
 const searchInput = document.querySelector('.recherche-poke input');
 /*à chaque saisie de caractères dans l'input, on applique la fonction "recherche" (qu'on met à part)
 qui va afficher tous les pokemons*/
-searchInput.addEventListener('keyup', recherche);
+//searchInput.addEventListener('keyup', recherche);
 
 function recherche(){
 
@@ -203,7 +210,9 @@ function recherche(){
 
         //si le nom des pokemons des cartes correspond à l'index de ce qu'on recherche (>-1 = 0,1,2...)
         if(titleValue.toUpperCase().indexOf(filter) > -1) {
+            //on maintient le display flex 
             allLi[i].style.display = "flex";
+            //sinon on enlève l'affichage
         } else {
             allLi[i].style.display = "none";
         }
