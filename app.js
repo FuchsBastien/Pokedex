@@ -1,7 +1,26 @@
 const searchInput = document.querySelector('.recherche-poke input');
+const listePoke = document.querySelector('.liste-poke');
 let allPokemon = [];
 let tableauFin = [];
 
+const types = {
+    grass: '#78c850',
+	ground: '#E2BF65',
+	dragon: '#6F35FC',
+	fire: '#F58271',
+	electric: '#F7D02C',
+	fairy: '#D685AD',
+	poison: '#966DA3',
+	bug: '#B3F594',
+	water: '#6390F0',
+	normal: '#D9D5D8',
+	psychic: '#F95587',
+	flying: '#A98FF3',
+	fighting: '#C25956',
+    rock: '#B6A136',
+    ghost: '#735797',
+    ice: '#96D9D6'
+};
 
 function fetchPokemonBase(){
     //on limite à 151 pokemons ?limit=151
@@ -12,11 +31,13 @@ function fetchPokemonBase(){
            console.log(allPoke);
            // pour chaque éléments du tableau, on envoit une fonction qui aura comme paramètre pokemon
             allPoke.results.forEach((pokemon) => {
-                //on passe cette méthode avec le paramètre pokemon
+                //on appelle la fonction fetchPokemonComplet avec le paramètre pokemon
                 fetchPokemonComplet(pokemon);
             })
         })
 }
+
+//on appelle la fonction fetchPokemon
 fetchPokemonBase();
 
 function fetchPokemonComplet(pokemon) {
@@ -45,39 +66,58 @@ function fetchPokemonComplet(pokemon) {
         .then((pokeData) => {
             //console.log(pokeData);
 
-        // on récupère le nom en fr qu'on rajoute à l'attribut à l'objet objPokemonFull 
-        objPokemonFull.name = pokeData.names[4].name;
-        // on push toutes les données de l'objet objPokemonFull au tableau allPokemon
-        allPokemon.push(objPokemonFull);
+            // on récupère le nom en fr qu'on rajoute à l'attribut à l'objet objPokemonFull 
+            objPokemonFull.name = pokeData.names[4].name;
+            // on push toutes les données de l'objet objPokemonFull au tableau allPokemon
+            allPokemon.push(objPokemonFull);
 
-        if(allPokemon.length === 151) {
-            //console.log(allPokemon);
+            if(allPokemon.length === 151) {
+                //console.log(allPokemon);
 
-            /*on trie le tableau de a à z en mettant les id dans l'ordre
-            méthode sort = on prend le 1er élèment du tableau et on le soustrait à un autre élèment (3 valeurs : a>b, a=b, a<b)
-            suivant ces valeurs a va être positionné avant ou après b*
-            ex : a:151 - b:10 = 141 ,a>b, a sera positionné après b, 10 - 151*/
-            tableauFin = allPokemon.sort((a,b) => {
-                return a.id - b.id;
-                //on prend les 21er pokemons
-            }).slice(0,21);
-             console.log(tableauFin);
+                /*on trie le tableau de a à z en mettant les id dans l'ordre
+                méthode sort = on prend le 1er élèment du tableau et on le soustrait à un autre élèment (3 valeurs : a>b, a=b, a<b)
+                suivant ces valeurs a va être positionné avant ou après b*
+                ex : a:151 - b:10 = 141 ,a>b, a sera positionné après b, 10 - 151*/
+                tableauFin = allPokemon.sort((a,b) => {
+                    return a.id - b.id;
+                    //on coupe pour prendre les 21 premiers pokemons
+                }).slice(0,21);
+                console.log(tableauFin);
 
-            /*createCard(tableauFin);
-            chargement.style.display = "none";*/
-        }    
-
+                //on appelle la fonction createCard
+                createCard(tableauFin);
+                chargement.style.display = "none";
+            }    
+        })
     })
-
-
-})
-  
-
-
-
 }
 
+// Création des cartes
+//on le nomme arr = tableauFin
+function createCard(arr){
 
+    for(let i = 0; i < arr.length; i++) {
+        const carte = document.createElement('li');
+        listePoke.appendChild(carte);
+        //on associe chaque couleur de la variable types au type de chaque pokemon [arr[i].type]
+        let couleur = types[arr[i].type];
+        //le background sera égal à la couleur de son type
+        carte.style.background = couleur;
+
+        const txtCarte = document.createElement('h5');
+        carte.appendChild(txtCarte);
+        txtCarte.innerText = arr[i].name;
+
+        const idCarte = document.createElement('p');
+        carte.appendChild(idCarte);
+        idCarte.innerText = `ID# ${arr[i].id}`;
+
+        const imgCarte = document.createElement('img');
+        carte.appendChild(imgCarte);
+        imgCarte.src = arr[i].pic;
+    }
+
+}
 
 
 
