@@ -1,4 +1,6 @@
 const searchInput = document.querySelector('.recherche-poke input');
+let allPokemon = [];
+let tableauFin = [];
 
 
 function fetchPokemonBase(){
@@ -6,16 +8,59 @@ function fetchPokemonBase(){
     fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
         .then(reponse => reponse.json())
         .then((allPoke) => {
-            console.log(allPoke);
+           //un tableau contenant 151 pokemon avec le nom et un url
+           console.log(allPoke);
+           // pour chaque éléments du tableau, on envoit une fonction qui aura comme paramètre pokemon
             allPoke.results.forEach((pokemon) => {
+                //on passe cette méthode avec le paramètre pokemon
                 fetchPokemonComplet(pokemon);
             })
-
         })
-
 }
 fetchPokemonBase();
 
+function fetchPokemonComplet(pokemon) {
+    //on crée un objet qui contiendra  les caractéristiques du pokemon
+    let objPokemonFull = {};
+    //on se sert du paramètre pokemon pour mettre l'url et le name dans des variables
+    let url = pokemon.url;
+    //console.log(url);
+    let nameP = pokemon.name;
+
+     //on appelle l'url ce chaque pokemon contenant ses caractéristiques 
+    fetch(url)
+    .then(reponse => reponse.json())
+    .then((pokeData) => {
+        //un tableau contenant 151 pokemon avec leur caractéristiques 
+        //console.log(pokeData);
+
+        // on récupère les images, le type et l'id qu'on rajoute à l'objet objPokemonFull
+        objPokemonFull.pic = pokeData.sprites.front_default;
+        objPokemonFull.type = pokeData.types[0].type.name;
+        objPokemonFull.id = pokeData.id;
+
+        //on appelle chaque pokemon pour avoir les noms dans toutes les langues (en utilisant le nom de la variable nameP)
+        fetch(`https://pokeapi.co/api/v2/pokemon-species/${nameP}`)
+        .then(reponse => reponse.json())
+        .then((pokeData) => {
+            //console.log(pokeData);
+
+        // on récupère le nom en fr qu'on rajoute à l'attribut à l'objet objPokemonFull 
+        objPokemonFull.name = pokeData.names[4].name;
+        // on push toutes les données de l'objet objPokemonFull au tableau allPokemon
+        allPokemon.push(objPokemonFull);
+
+     
+
+    })
+
+
+})
+  
+
+
+
+}
 
 
 
