@@ -21,6 +21,7 @@ const types = {
 };
 
 
+
 //Appel API 
 
 function fetchPokemonBase(){
@@ -38,10 +39,13 @@ function fetchPokemonBase(){
         })
 }
 
-//on appelle la fonction fetchPokemon
+
+//Appel de la fonction fetchPokemon
 fetchPokemonBase();
 
-// on récupère les donnée des pokemon qu'on met dans un tableau
+
+
+//Récupèration des données choisies des pokemon 
 
 function fetchPokemonComplet(pokemon) {
     //on crée un objet qui contiendra  les caractéristiques du pokemon
@@ -95,6 +99,8 @@ function fetchPokemonComplet(pokemon) {
     })
 }
 
+
+
 // Création des cartes
 
 //on le nomme arr = tableauFin
@@ -125,6 +131,7 @@ function createCard(arr){
 }
 
 
+
 // Scroll Infini
 
 //évènement scroll sur la fenêtre globale
@@ -146,6 +153,7 @@ window.addEventListener('scroll', () => {
  //nombre pokemon qu'on a déjà fait
 let index = 21;
 
+
 function addPoke(nb) {
     // si pokemon > 151 on ne fait plus rien
     if(index > 151) {
@@ -154,16 +162,55 @@ function addPoke(nb) {
     // sinon on coupe le tableau allPokemon à partir de index (21 pokemons)
     const arrToAdd = allPokemon.slice(index, index + nb);
     console.log(index, index + nb);
+    //on rappelle de nouveau la fonction createCard avec les paramètres arrToAdd
     createCard(arrToAdd);
+    //la fonction rajoute à chaque fois 6 à l'index mis à jour
     index += nb;
+}
+
+
+
+// Recherche 
+
+const searchInput = document.querySelector('.recherche-poke input');
+//à chaque saisie de caractères dans l'input, on applique la fonction "recherche" (qu'on met à part)
+searchInput.addEventListener('keyup', recherche);
+
+
+function recherche(){
+
+    /*si le nombre de pokemon affiché < 151 on affiche les 130 autres pokemons
+    ex : index = 30 donc 30 + 130 = 160 > 151 (plus grand que longueur du tableau) 
+    MAIS slice va automatiquement remettre à la longueur max du tableau (151)*/
+    if(index < 151) {
+        addPoke(130);
+    }
+
+    /*let filter, allLi, titleValue, allTitles;
+    filter = searchInput.value.toUpperCase();
+    allLi = document.querySelectorAll('li');
+    allTitles = document.querySelectorAll('li > h5');
+    
+    
+    for(i = 0; i < allLi.length; i++) {
+
+        titleValue = allTitles[i].innerText;
+
+        if(titleValue.toUpperCase().indexOf(filter) > -1) {
+            allLi[i].style.display = "flex";
+        } else {
+            allLi[i].style.display = "none";
+        }
+
+    }*/
+
 }
 
 
 
 // Animation Input (rentrer des élèments)
 
-const searchInput = document.querySelector('.recherche-poke input');
-//tant que l'input contient des caractères la classe active-input est activée
+//tant que l'input contient des caractères, on applique la fonction "e" qui active la classe active-input
 searchInput.addEventListener('input', function(e) {
     //e = objet qui contient les propriétés de l'évènement, target = input , value = contenu input
     if(e.target.value !== "") {
