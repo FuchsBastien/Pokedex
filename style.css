@@ -87,9 +87,11 @@ ul {
     align-items: center;
     flex-direction: column;
 }
+
 .liste-poke h5 {
     font-size: 19px;
 }
+
 .liste-poke p {
     font-size: 18px;
 }

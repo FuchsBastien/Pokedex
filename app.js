@@ -1,5 +1,3 @@
-const searchInput = document.querySelector('.recherche-poke input');
-const listePoke = document.querySelector('.liste-poke');
 let allPokemon = [];
 let tableauFin = [];
 
@@ -22,6 +20,9 @@ const types = {
     ice: '#96D9D6'
 };
 
+
+//Appel API 
+
 function fetchPokemonBase(){
     //on limite à 151 pokemons ?limit=151
     fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
@@ -39,6 +40,8 @@ function fetchPokemonBase(){
 
 //on appelle la fonction fetchPokemon
 fetchPokemonBase();
+
+// on récupère les donnée des pokemon qu'on met dans un tableau
 
 function fetchPokemonComplet(pokemon) {
     //on crée un objet qui contiendra  les caractéristiques du pokemon
@@ -86,17 +89,19 @@ function fetchPokemonComplet(pokemon) {
 
                 //on appelle la fonction createCard
                 createCard(tableauFin);
-                chargement.style.display = "none";
+                /*chargement.style.display = "none";*/
             }    
         })
     })
 }
 
 // Création des cartes
+
 //on le nomme arr = tableauFin
 function createCard(arr){
 
     for(let i = 0; i < arr.length; i++) {
+        const listePoke = document.querySelector('.liste-poke');
         const carte = document.createElement('li');
         listePoke.appendChild(carte);
         //on associe chaque couleur de la variable types au type de chaque pokemon [arr[i].type]
@@ -120,16 +125,44 @@ function createCard(arr){
 }
 
 
+// Scroll Infini
 
+//évènement scroll sur la fenêtre globale
+window.addEventListener('scroll', () => {
+    //on a sorti ces 3 valeurs de documentElement pour les mettre dans une constante
+    const {scrollTop, scrollHeight, clientHeight} = document.documentElement;
+    // scrollTop = scroll depuis le top (hauteur depuis le haut)
+    // scrollHeight = scroll total (hauteur page)
+    // clientHeight = hauteur de la fenêtre (partie visible)
+    // console.log(scrollTop, scrollHeight, clientHeight);
 
+    // si partie visible + hauteur depuis le haut >=  hauteur total
+    if(clientHeight + scrollTop >= scrollHeight - 20) {
+        // on applique la fonction poke avec 6 cartes
+        addPoke(6);
+    }
 
+})
+ //nombre pokemon qu'on a déjà fait
+let index = 21;
 
-
-
+function addPoke(nb) {
+    // si pokemon > 151 on ne fait plus rien
+    if(index > 151) {
+        return;
+    }
+    // sinon on coupe le tableau allPokemon à partir de index (21 pokemons)
+    const arrToAdd = allPokemon.slice(index, index + nb);
+    console.log(index, index + nb);
+    createCard(arrToAdd);
+    index += nb;
+}
 
 
 
 // Animation Input (rentrer des élèments)
+
+const searchInput = document.querySelector('.recherche-poke input');
 //tant que l'input contient des caractères la classe active-input est activée
 searchInput.addEventListener('input', function(e) {
     //e = objet qui contient les propriétés de l'évènement, target = input , value = contenu input
