@@ -50,7 +50,22 @@ function fetchPokemonComplet(pokemon) {
         // on push toutes les données de l'objet objPokemonFull au tableau allPokemon
         allPokemon.push(objPokemonFull);
 
-     
+        if(allPokemon.length === 151) {
+            //console.log(allPokemon);
+
+            /*on trie le tableau de a à z en mettant les id dans l'ordre
+            méthode sort = on prend le 1er élèment du tableau et on le soustrait à un autre élèment (3 valeurs : a>b, a=b, a<b)
+            suivant ces valeurs a va être positionné avant ou après b*
+            ex : a:151 - b:10 = 141 ,a>b, a sera positionné après b, 10 - 151*/
+            tableauFin = allPokemon.sort((a,b) => {
+                return a.id - b.id;
+                //on prend les 21er pokemons
+            }).slice(0,21);
+             console.log(tableauFin);
+
+            /*createCard(tableauFin);
+            chargement.style.display = "none";*/
+        }    
 
     })
 
