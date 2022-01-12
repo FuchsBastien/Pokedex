@@ -171,17 +171,17 @@ function addPoke(nb) {
 
 // Recherche 
 
-const formRecherche = document.querySelector('form');
+/*const formRecherche = document.querySelector('form');
 formRecherche.addEventListener('submit', (e) => {
-         e.preventDefault();
-         recherche();
- })
+    e.preventDefault();
+    recherche();
+})*/
     
 
 const searchInput = document.querySelector('.recherche-poke input');
 /*à chaque saisie de caractères dans l'input, on applique la fonction "recherche" (qu'on met à part)
 qui va afficher tous les pokemons*/
-//searchInput.addEventListener('keyup', recherche);
+searchInput.addEventListener('keyup', recherche);
 
 function recherche(){
 
